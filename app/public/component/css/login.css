@@ -1,0 +1,93 @@
+html,
+body {
+	height: 100%;
+}
+
+body {
+
+	position: relative;
+	background: #F5F5F5 url(../img/background.svg) no-repeat;
+	background-size: cover;
+}
+
+.itme-1 {
+	background-color: ;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.logo {
+	width: 60px !important;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	margin-left: 20px !important;
+}
+
+.title {
+	font-size: 30px !important;
+	font-weight: 550 !important;
+	margin-left: 20px !important;
+	color: #5FB878 !important;
+	display: inline-block !important;
+	height: 60px !important;
+	line-height: 60px !important;
+	margin-top: 10px !important;
+	position: absolute !important;
+}
+
+.desc {
+	width: 100% !important;
+	margin-bottom: 20px;
+	text-align: center !important;
+	color: gray !important;
+	height: 60px !important;
+	line-height: 60px !important;
+}
+
+.w-320 {
+	width: 320px !important;
+}
+
+.w-190 {
+	width: 190px !important;
+}
+
+.layui-input-inline {
+	width: 320px !important;
+}
+
+.layui-input-inline input {
+	padding-left: 15px !important;
+	border-radius: 3px !important;
+	height: 44px !important;
+	line-height: 44px !important;
+}
+
+.layui-input-block {
+	margin: 0;
+}
+
+.layui-input-block button {
+	width: 320px;
+	font-size: 16px;
+	background-color: #5FB878;
+	font-weight: 550 !important;
+}
+
+.layui-form-checkbox[lay-skin=primary] {
+	margin: 10px 0 20px;
+}
+
+input::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+input::-moz-input-placeholder {
+	color: #ccc;
+}
+
+input::-ms-input-placeholder {
+	color: #ccc;
+}

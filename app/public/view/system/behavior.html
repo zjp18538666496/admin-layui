@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../component/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="../../component/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../component/css/tab.css" />
+  </head>
+  <body style="background-color: #fff; ">
+    <!-- 修改和删除 -->
+    <script type="text/html" id="role-bar">
+      <div class="layui-input-block">
+        <input type="checkbox" name="like[write]" title="成功" checked>
+      </div>
+    </script>
+    <div class="layui-tab lay-filter="test" layui-tab-card">
+      <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="11">登录日志</li>
+        <li lay-id="22">操作日志</li>
+      </ul>
+      <div class="layui-tab-content" style="height: 100%;">
+        <div class="layui-tab-item layui-show">
+          <table class="layui-hide" id="behavior-table" lay-filter="behavior-table" style="background-color: #FFFFFF;">
+          </table>
+        </div>
+        <div class="layui-tab-item">
+          <table class="layui-hide" id="behavior-2-table" lay-filter="behavior-2-table"
+            style="background-color: #FFFFFF;">
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+  </body>
+</html>
+<script src="../../component/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/jquery/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/js/iframe.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  layui.use(['form', 'table', 'layer', 'element'], function() {
+    var form = layui.form;
+    var table = layui.table;
+    var element = layui.element;
+    let MODULE_PATH = "../operate/";
+    var layer = layui.layer;
+     var $ = layui.jquery;
+    // 表格渲染 
+    //Hash地址的定位
+    var layid = location.hash.replace(/^#test=/, '');
+    element.tabChange('test', layid);
+    element.on('tab(test)', function(elem) {
+      location.hash = 'test=' + $(this).attr('lay-id');
+    });
+    table.render({
+      elem: '#behavior-table',
+      url: '/behavior',
+      page: true, //开启分页
+      skin: 'line',
+      id: 'idTest',
+      parseData: function(res) { //res 即为原始返回的数据
+        return {
+          "code": 0, //解析接口状态
+          "data": res,
+        };
+      },
+      cols: [
+        [{
+            type: 'checkbox'
+          }, {
+            field: 'module',
+            title: '模块',
+          }, {
+            field: 'request',
+            title: '请求方式',
+          }, {
+            field: 'port',
+            title: '接口',
+          }, {
+            field: 'browser',
+            title: '浏览器'
+          }, {
+            field: 'location',
+            title: '地址',
+          }, {
+            field: 'system',
+            title: '操作系统',
+          }, {
+            field: 'time',
+            title: '访问时间',
+          },
+          {
+            field: 'operator',
+            title: '操作人',
+          }, {
+            field: 'classify',
+            title: '操作',
+            toolbar: '#role-bar',
+            width: 130
+          },
+        ]
+      ],
+    });
+    table.render({
+      elem: '#behavior-2-table',
+      url: '/behavior/operation',
+      page: true, //开启分页
+      skin: 'line',
+      id: 'idTest',
+      parseData: function(res) { //res 即为原始返回的数据
+        return {
+          "code": 0, //解析接口状态
+          "data": res,
+        };
+      },
+      cols: [
+        [{
+            type: 'checkbox'
+          }, {
+            field: 'module',
+            title: '模块',
+          }, {
+            field: 'request',
+            title: '请求方式',
+          }, {
+            field: 'port',
+            title: '接口',
+          }, {
+            field: 'browser',
+            title: '浏览器'
+          }, {
+            field: 'location',
+            title: '地址',
+          }, {
+            field: 'system',
+            title: '操作系统',
+          }, {
+            field: 'time',
+            title: '访问时间',
+          },
+          {
+            field: 'operator',
+            title: '操作人',
+          }, {
+            field: 'classify',
+            title: '访问状态',
+            toolbar: '#role-bar',
+            width: 130
+          },
+        ]
+      ],
+    });
+    // 监听工具栏
+    table.on('toolbar(behavior-table)', function(obj) {
+      if (obj.event === 'add') {
+        window.add();
+      } else if (obj.event === 'delete') {
+        window.delete();
+      }
+    });
+
+    // 工具条事件
+    table.on('tool(behavior-table)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      var data = obj.data; //获得当前行数据
+      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+      var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+      if (layEvent === 'detail') { //查看
+        //do somehing
+      } else if (layEvent === 'remove') { //删除
+        layer.confirm('真的删除行么', {
+          icon: 3,
+          title: '提示',
+        }, function(index) {
+          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+          layer.close(index); //向服务端发送删除指令
+          var loading = layer.load(2, {
+            time: 2 * 1000
+          });
+          $.ajax({
+            url: "http://127.0.0.1:7001/behavior",
+            dataType: 'json',
+            type: 'delete',
+            success: function(result) {
+              // 关闭特定层
+              layer.close(loading);
+              table.reload('behavior-table', {
+                page: {
+                  curr: 1 //重新从第 1 页开始
+                }
+              });
+            }
+          })
+        });
+      } else if (layEvent === 'edit') { //编辑
+        window.edit();
+      } else if (layEvent === 'LAYTABLE_TIPS') {
+        layer.alert('Hi，头部工具栏扩展的右侧图标。');
+      }
+    });
+
+    /* 新增数据 */
+    window.add = function() {
+      layer.open({
+        type: 2,
+        title: '新增',
+        shade: 0.1,
+        area: ['500px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content: MODULE_PATH + 'add-behavior.html'
+      });
+    }
+
+    /* 修改数据 */
+    window.edit = function() {
+      layer.open({
+        type: 2,
+        title: '修改',
+        shade: 0.1,
+        area: ['500px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content: MODULE_PATH + 'edit-behavior.html'
+      });
+    }
+    // /* 删除指定的用户 */
+    // window.remove = function() {
+    //   layer.confirm('确定删除该用户？', {
+    //     icon: 3,
+    //     title: '提示',
+    //     // title: false
+    //   }, function(index) {
+    //     layer.close(index);
+    //     var loading = layer.load(2, {
+    //       time: 2 * 1000
+    //     }); 
+    //     $.ajax({
+    //       url: "",
+    //       dataType: 'json',
+    //       type: 'delete',
+    //       success: function(result) {
+    //         // 关闭特定层
+    //         layer.close(loading);
+
+    //         table.reload('behavior-table', {
+    //           page: {
+    //             curr: 1 //重新从第 1 页开始
+    //           }
+    //         });
+    //       }
+    //     })
+    //   });
+    // }
+    // 选中单条数据或多条数据删除
+    table.on('checkbox(table)', function(obj) {
+      var data = obj.data;
+    });
+    layui.jquery, active = {
+      getid: function() {
+        var arr = [];
+        var checkStatus = table.checkStatus('idTest'), //获取选中的行
+          data = checkStatus.data;
+        for (var i = 0; i < data.length; i++) { //循环筛选出id
+          arr.push(data[i].id);
+        }
+        $("#ids").val(arr);
+      }
+    }
+    $('.layui-btn').on('click', function() {
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+    window.delete = function() {
+      layer.confirm('确定删除吗?', {
+        icon: 3,
+        title: '提示',
+        btn: ['确定', '取消']
+      }, function(index) {
+        var a1 = $("#ids").val(); //取得已获取的ids
+        $.ajax({
+          url: "http://127.0.0.1:7001/behavior",
+          dataType: 'json',
+          type: 'delete',
+          success: function(result) {
+            // 关闭特定层
+            layer.close(a1);
+            table.reload('behavior-table', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              }
+            });
+          }
+        });
+      });
+    }
+  });
+</script>
+<style type="text/css">
+  .layui-input-block {
+    margin-left: 0;
+  }
+</style>

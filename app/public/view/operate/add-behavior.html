@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <link rel="stylesheet" type="text/css" href="../../component/layer/mobile/need/layer.css" />
+  <link rel="stylesheet" type="text/css" href="../../component/layui/css/layui.css" />
+  <link rel="stylesheet" type="text/css" href="../../component/css/common.css" />
+  <script src="../../component/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../component/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+  <body>
+    <form class="layui-form" action="">
+      <div class="mainBox">
+        <div class="main-container">
+          <div class="main-container">
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">账号</label>
+              <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入账号"
+                  class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">用户名</label>
+              <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="用户名"
+                  class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">姓名</label>
+              <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入姓名"
+                  class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">性别</label>
+              <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男" checked>
+                <input type="radio" name="sex" value="女" title="女">
+              </div>
+            </div>
+
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">电话</label>
+              <div class="layui-input-block">
+                <input type="text" name="phone" lay-verify="required|phone" autocomplete="off" placeholder="请输入电话"
+                  class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item m25">
+              <label class="layui-form-label">签名</label>
+              <div class="layui-input-block">
+                <input type="text" name="sign" placeholder="请输入个性签名" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom right ">
+        <div class="button-container">
+          <button type="submit" class="layui-btn layui-btn-sm layui-btn-normal" lay-submit=""
+            lay-filter="behavior-save">
+            <i class="layui-icon layui-icon-ok"></i>
+            提交
+          </button>
+          <button type="reset" class="layui-btn layui-btn-sm layui-btn-danger">
+            <i class="layui-icon layui-icon-refresh"></i>
+            重置
+          </button>
+        </div>
+      </div>
+    </form>
+    <script>
+      layui.use(['form', 'jquery'], function() {
+        let form = layui.form;
+        let $ = layui.jquery;
+
+        form.on('submit(behavior-save)', function(data) {
+          $.ajax({
+            url: 'behavior',
+            data: JSON.stringify(data.field),
+            dataType: 'json',
+            contentType: 'application/json',
+            type: 'post',
+            success: function(result) {
+              layer.msg("添加成功!", {
+                icon: 1,
+                time: 1000
+              }, function() {
+                parent.layer.close(parent.layer.getFrameIndex(window
+                  .name)); //关闭当前页
+                parent.layui.table.reload("behavior-table");
+              });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              layer.msg(xhr.responseText, {
+                icon: 2,
+                time: 2000
+              });
+            }
+          })
+          return false;
+        });
+      })
+    </script>
+  </body>
+</html>
+<style type="text/css">
+  .layui-input,
+  .layui-textarea {
+    width: 324px;
+  }
+
+  .m25 {
+    margin-left: 25px;
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+
+  input::-webkit-input-placeholder {
+    color: #ccc;
+  }
+
+  input::-moz-input-placeholder {
+    color: #ccc;
+  }
+
+  input::-ms-input-placeholder {
+    color: #ccc;
+  }
+
+  .bottom {
+    margin-top: 25px;
+    margin-right: 40px;
+  }
+</style>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../component/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="../../component/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../component/css/tab.css" />
+  </head>
+  <body>
+    <!-- 按条件查询 -->
+    <form class="layui-form white shade" action="" style="padding: 10px 15px;
+		line-height: 73px;height: 73px;">
+      <div class="layui-form-item inline1">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input s1">
+        </div>
+      </div>
+      <div class="layui-form-item inline1">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input s1">
+        </div>
+      </div>
+      <div class="layui-form-item inline1 m-10">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input s1">
+        </div>
+      </div>
+      <!-- 查询按钮 -->
+      <button type="button" class="layui-btn layui-btn-normal b-padding-10 h-34 w-68 layui-font-12"><i
+          class="layui-icon layui-icon-search"></i>查询</button>
+      <!-- 重置按钮 -->
+
+      <button type="button" class="layui-btn layui-btn-primary b-padding-10 h-34 w-68 layui-font-12"> <i
+          class="layui-icon layui-icon-refresh-1"></i>
+        重置</button>
+    </form>
+    <!-- 自定义工具栏 -->
+    <script type="text/html" id="toolbarDemo">
+      <div class="layui-btn-container">
+        <button id="add" class="layui-btn blue-btn layui-bg-blue" lay-event="add">新增</button>
+        <button class="layui-btn blue-btn layui-bg-red" lay-event="delete">删除</button>
+      </div>
+    </script>
+    <!-- 修改和删除 -->
+    <script type="text/html" id="role-bar">
+      <button class="layui-btn layui-btn-normal layui-btn-sm tab-btn" lay-event="edit"><i
+          class="layui-icon layui-icon-edit"></i></button>
+      <button class="layui-btn layui-bg-orange layui-btn-sm tab-btn" lay-event="edit"><i
+          class="layui-icon">&#xe691;</i></button>
+      <button class="layui-btn layui-btn-sm layui-btn-danger tab-btn" lay-event="remove"><i
+          class="layui-icon layui-icon-delete"></i></button>
+    </script>
+    <!-- 工具栏 -->
+    <table id="dd-toolbar" lay-filter="dd-toolbar"></table>
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6">
+        <table class="layui-hide" id="dd-table" lay-filter="dd-table"
+          style="background-color: #FFFFFF; display: inline-block;"></table>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6">
+        <div style="margin-top: 10px; padding: 10px; background-color: #ffffff;">
+          123
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </body>
+</html>
+<script src="../../component/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/jquery/jquery-3.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../component/js/iframe.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  layui.use(['form', 'table', 'layer', 'element'], function() {
+    var form = layui.form;
+    var table = layui.table;
+    var element = layui.element;
+    let MODULE_PATH = "../operate/";
+    var layer = layui.layer;
+    // 表格渲染 
+    table.render({
+      elem: '#dd-table',
+      url: '/dd',
+      page: true, //开启分页
+      toolbar: '#toolbarDemo',
+      skin: 'line',
+      id: 'idTest',
+      parseData: function(res) { //res 即为原始返回的数据
+        return {
+          "code": 0, //解析接口状态
+          "data": res,
+        };
+      },
+      cols: [
+        [{
+          type: 'checkbox'
+        }, {
+          field: 'name',
+          title: '字典名称',
+        }, {
+          field: 'describe',
+          title: '描述',
+        }, {
+          field: 'status',
+          title: '字典状态',
+        }, {
+          field: 'classify',
+          title: '操作',
+          toolbar: '#role-bar',
+        }, ]
+      ],
+    });
+    // 监听工具栏
+    table.on('toolbar(dd-table)', function(obj) {
+      if (obj.event === 'add') {
+        window.add();
+      } else if (obj.event === 'delete') {
+        window.delete();
+      }
+    });
+
+    // 工具条事件
+    table.on('tool(dd-table)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      var data = obj.data; //获得当前行数据
+      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+      var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+      if (layEvent === 'detail') { //查看
+        //do somehing
+      } else if (layEvent === 'remove') { //删除
+        layer.msg('删除');
+      } else if (layEvent === 'edit') { //编辑
+        window.edit();
+      } else if (layEvent === 'LAYTABLE_TIPS') {
+        layer.alert('Hi，头部工具栏扩展的右侧图标。');
+      }
+    });
+
+    /* 新增数据 */
+    window.add = function() {
+      layer.open({
+        type: 2,
+        title: '新增',
+        shade: 0.1,
+        area: ['500px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content: MODULE_PATH + 'add-dd.html'
+      });
+    }
+
+    /* 修改数据 */
+    window.edit = function() {
+      layer.open({
+        type: 2,
+        title: '修改',
+        shade: 0.1,
+        area: ['500px', '450px'],
+        shadeClose: true, //点击遮罩关闭
+        content: MODULE_PATH + 'edit-dd.html'
+      });
+    }
+    // /* 删除指定的用户 */
+    // window.remove = function() {
+    //   layer.confirm('确定删除该用户？', {
+    //     icon: 3,
+    //     title: '提示',
+    //     // title: false
+    //   }, function(index) {
+    //     layer.close(index);
+    //     var loading = layer.load(2, {
+    //       time: 2 * 1000
+    //     }); 
+    //     $.ajax({
+    //       url: "",
+    //       dataType: 'json',
+    //       type: 'delete',
+    //       success: function(result) {
+    //         // 关闭特定层
+    //         layer.close(loading);
+
+    //         table.reload('dd-table', {
+    //           page: {
+    //             curr: 1 //重新从第 1 页开始
+    //           }
+    //         });
+    //       }
+    //     })
+    //   });
+    // }
+    // 选中单条数据或多条数据删除
+    table.on('checkbox(table)', function(obj) {
+      var data = obj.data;
+    });
+    layui.jquery, active = {
+      getid: function() {
+        var arr = [];
+        var checkStatus = table.checkStatus('idTest'), //获取选中的行
+          data = checkStatus.data;
+        for (var i = 0; i < data.length; i++) { //循环筛选出id
+          arr.push(data[i].id);
+        }
+        $("#ids").val(arr);
+      }
+    }
+    $('.layui-btn').on('click', function() {
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+    window.delete = function() {
+      layer.msg('批量删除');
+    }
+  });
+</script>

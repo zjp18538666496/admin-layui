@@ -1,0 +1,75 @@
+/* 侧边栏 */
+
+.sidebar {
+  width: 230px;
+  background-color: #28333E;
+  letter-spacing: 2px;
+}
+
+.layui-font-21 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 50px;
+  line-height: 60px !important;
+  font-size: 21px;
+  font-weight: 550;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+/* 导航栏开始 */
+.nav ul {
+  width: 100%;
+}
+
+.s1 {
+  height: 60.8px;
+}
+
+.layui-tab-content {
+  padding: 0;
+}
+
+/* .layui-nav-item{
+	height: 56px;
+} */
+.layui-bg-black {
+  background-color: #28333E;
+}
+
+.layui-nav {
+  background-color: #28333E;
+}
+
+.win1 {
+  position: fixed;
+  top: 62px;
+  left: 220px;
+  z-index: 999;
+  width: 200px;
+}
+
+.menu-1 {
+  position: fixed;
+  width: calc(100% - 200px);
+  left: 230px;
+}
+
+.l-menu {
+  position: fixed;
+  left: 233px;
+}
+
+.layui-tab {
+  margin: 0;
+}
+
+.bar {
+  top: -21px;
+  left: -10px;
+  width: calc(100% + 45px);
+}
+
+.pop {
+  margin-top: -10px;
+}

@@ -1,0 +1,86 @@
+/* 公众样式 */
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.w-230 {
+  width: 230px !important;
+}
+
+.white {
+  background-color: #ffffff !important;
+}
+
+.clearfix {
+  overflow: hidden;
+}
+
+.inline1 {
+  display: inline-block;
+}
+
+.b-padding-10 {
+  padding: 0 10px;
+}
+
+.w-68 {
+  width: 68px;
+}
+
+.h-34 {
+  height: 34px;
+  line-height: 34px;
+}
+
+.m-10 {
+  margin-right: 10px;
+}
+
+.h-45 {
+  height: 45px;
+  line-height: 45px;
+}
+
+.shade {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+}
+
+.layui-input:focus,
+.layui-textarea:focus {
+  border-color: #2d8cf0 !important;
+  box-shadow: 0 0 0 3px #ecf5ff !important;
+}
+
+.win2 {
+  margin: 10px;
+  width: calc(100% - 230px);
+  /* height: 546px; */
+  border: 0;
+}
+
+.align-c {
+  text-align: center
+}
+
+.b-gray {
+  background-color: #F5F5F5;
+}
+
+.h-438 {
+  height: 438px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+
+/* 滚动条的滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #a1a3a9;
+  border-radius: 3px;
+}

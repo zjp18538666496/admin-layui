@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <link rel="stylesheet" type="text/css" href="./component/layui/css/layui.css" />
+  <link rel="stylesheet" type="text/css" href="component/css/login.css" />
+  <link rel="stylesheet" type="text/css" href="component/css/common.css" />
+  <script src="./component/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+  <body>
+    <div class="itme-1">
+      <div class="">
+        <img class="logo" src="component/img/logo.png">
+        <span class="title">Pear Admin</span>
+      </div>
+      <div class="desc">
+        明 湖 区 最 具 影 响 力 的 设 计 规 范 之 一
+      </div>
+      <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <div class="layui-input-inline w-320">
+            <input type="text" name="name" required lay-verify="required" placeholder="账号:" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-inline w-320">
+            <input type="password" name="password" required lay-verify="required" placeholder="密码:" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-inline">
+            <input type="text" name="code" required lay-verify="required" placeholder="验证码:" autocomplete="off"
+              class="layui-input left w-190">
+            <img class="right" src="component/img/captcha.gif" style="width: 115px;height: 44px;">
+          </div>
+        </div>
+        <input class="input-1" type="checkbox" name="" title="记住密码" lay-skin="primary" checked>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button onclick="window.location.href = 'index.html'" class="layui-btn" lay-submit
+              lay-filter="formDemo">登入</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  //Demo
+  layui.use('form', function() {
+    var form = layui.form;
+    //监听提交
+    form.on('submit(formDemo)', function(data) {
+    });
+  });
+</script>
